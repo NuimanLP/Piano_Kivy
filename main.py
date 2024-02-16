@@ -21,7 +21,19 @@ class GameScreen(Screen):
 
 
 class TitleScreen(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super(TitleScreen, self).__init__(**kwargs)
+        # Create a Button widget
+        start_button = Button(
+            text='Start Game',
+            size_hint=(None, None),
+            size=(200, 50),
+            pos_hint={'center_x': 0.5, 'center_y': 0.5}  # Center the button
+        )
+        start_button.bind(on_press=self.on_button_press)
+        self.add_widget(start_button)
+    def on_button_press(self, instance):
+        print("The button has been pressed!!!")
 
 
 class TetrisApp(App):
