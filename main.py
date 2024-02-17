@@ -41,7 +41,8 @@ class TitleScreen(Screen):
         start_button.bind(on_press=self.on_button_press)
         self.add_widget(start_button)
     def on_button_press(self, instance):
-        print("The button has been pressed!!!")
+        self.manager.transition.direction = 'left'  # transition
+        self.manager.current = 'game'
 
 
 class TetrisApp(App):
