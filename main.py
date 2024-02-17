@@ -4,6 +4,8 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.clock import Clock
+from kivy.uix.gridlayout import GridLayout
+
 
 class TetrisGame(ScreenManager):
     def __init__(self, *args, **kwargs):
@@ -16,8 +18,14 @@ class TetrisGame(ScreenManager):
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super(GameScreen, self).__init__(**kwargs)
-        label = Label(text='Game Screen', center=self.center)
-        self.add_widget(label)
+        self.cols, self.rows = 10, 20
+        self.grid_layout = GridLayout(cols=self.cols)
+        self.create_grid()
+        self.add_widget(self.grid_layout)
+
+    def create_grid(self):
+        for _ in range(self.cols * self.rows):
+            self.grid_layout.add_widget(Widget())
 
 
 class TitleScreen(Screen):
