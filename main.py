@@ -10,10 +10,11 @@ from kivy.uix.gridlayout import GridLayout
 class TetrisGame(ScreenManager):
     def __init__(self, *args, **kwargs):
         super(TetrisGame, self).__init__(*args, **kwargs)
-        self.title_screen = TitleScreen(name='title')
-        self.game_screen = GameScreen(name='game')
+        self.title_screen = TitleScreen(name="title")
+        self.game_screen = GameScreen(name="game")
         self.add_widget(self.title_screen)
         self.add_widget(self.game_screen)
+
 
 class GameScreen(Screen):
     def __init__(self, **kwargs):
@@ -33,16 +34,18 @@ class TitleScreen(Screen):
         super(TitleScreen, self).__init__(**kwargs)
         # Create a Button widget
         start_button = Button(
-            text='Start Game',
+            text="Start Game",
             size_hint=(None, None),
-            size=(200, 50),
-            pos_hint={'center_x': 0.5, 'center_y': 0.5}  # Center the button
+            size=(300, 75),
+            background_color=[0.2, 1, 1, 1],
+            pos_hint={"center_x": 0.5, "center_y": 0.4},  # Center the button
         )
         start_button.bind(on_press=self.on_button_press)
         self.add_widget(start_button)
+
     def on_button_press(self, instance):
-        self.manager.transition.direction = 'left'  # transition
-        self.manager.current = 'game'
+        self.manager.transition.direction = "left"  # transition
+        self.manager.current = "game"
 
 
 class TetrisApp(App):
