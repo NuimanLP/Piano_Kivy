@@ -5,6 +5,11 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.clock import Clock
 from kivy.uix.gridlayout import GridLayout
+from kivy.graphics import Color, Rectangle
+
+TILE = 30
+
+W, H = 10, 20
 
 tetromino_shapes = {
     'I': [(0, 0), (-1, 0), (1, 0), (2, 0)],
@@ -15,6 +20,21 @@ tetromino_shapes = {
     'J': [(0, 0), (-1, 0), (1, 0), (-1, -1)],
     'L': [(0, 0), (1, 0), (-1, 0), (1, -1)],
 }
+
+
+class Tetromino(Widget):
+    def __init__(self, shape, **kwargs):
+        super(Tetromino, self).__init__(**kwargs)
+        self.shape = shape
+        self.blocks = []
+        self.create_blocks()
+
+    def create_blocks(self):
+        with self.canvas:
+            Color(1, 0, 0, 1)
+            for pos in self.shape:
+                x, y = pos
+                self.blocks.append(Rectangle(pos=(x * TILE, y * TILE), size=(TILE, TILE)))
 
 
 class TetrisGame(ScreenManager):
