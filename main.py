@@ -6,6 +6,16 @@ from kivy.uix.button import Button
 from kivy.clock import Clock
 from kivy.uix.gridlayout import GridLayout
 
+tetromino_shapes = {
+    'I': [(0, 0), (-1, 0), (1, 0), (2, 0)],
+    'O': [(0, 0), (0, -1), (-1, -1), (-1, 0)],
+    'T': [(0, 0), (-1, 0), (1, 0), (0, -1)],
+    'S': [(0, 0), (-1, 0), (0, -1), (1, -1)],
+    'Z': [(0, 0), (1, 0), (0, -1), (-1, -1)],
+    'J': [(0, 0), (-1, 0), (1, 0), (-1, -1)],
+    'L': [(0, 0), (1, 0), (-1, 0), (1, -1)],
+}
+
 
 class TetrisGame(ScreenManager):
     def __init__(self, *args, **kwargs):
