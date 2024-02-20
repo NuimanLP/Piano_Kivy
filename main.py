@@ -6,6 +6,8 @@ from kivy.uix.button import Button
 from kivy.clock import Clock
 from kivy.uix.gridlayout import GridLayout
 from kivy.graphics import Color, Rectangle
+from random import choice
+
 
 TILE = 30
 
@@ -49,7 +51,7 @@ class TetrisGame(ScreenManager):
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super(GameScreen, self).__init__(**kwargs)
-        self.cols, self.rows = 10, 20
+        self.cols, self.rows = W,H
         self.grid_layout = GridLayout(cols=self.cols)
         self.create_grid()
         self.add_widget(self.grid_layout)
@@ -60,7 +62,13 @@ class GameScreen(Screen):
     def start_game(self):
         self.current_tetromino = self.create_tetromino()
         self.draw_tetromino(self.current_tetromino)
-    
+    def create_tetromino(self):
+        shape_name, shape_coords = choice(list(tetromino_shapes.items()))
+        tetromino = Tetromino(shape=shape_coords)
+        return tetromino
+    def draw_tetromino(self, tetromino):
+        for block in tetromino.blocks:
+            self.canvas.add(block)
 
 
 class TitleScreen(Screen):
@@ -80,7 +88,7 @@ class TitleScreen(Screen):
     def on_button_press(self, instance):
         self.manager.transition.direction = "left"  # transition
         self.manager.current = "game"
-
+        self.manager.get_screen('game').start_game()
 
 class TetrisApp(App):
     def build(self):
