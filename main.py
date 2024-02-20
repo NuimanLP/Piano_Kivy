@@ -57,6 +57,10 @@ class GameScreen(Screen):
     def create_grid(self):
         for _ in range(self.cols * self.rows):
             self.grid_layout.add_widget(Widget())
+    def start_game(self):
+        self.current_tetromino = self.create_tetromino()
+        self.draw_tetromino(self.current_tetromino)
+    
 
 
 class TitleScreen(Screen):
