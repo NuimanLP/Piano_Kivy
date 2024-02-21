@@ -11,7 +11,7 @@ import random
 
 TILE = 30
 
-W, H = 10, 20
+W, H = 20, 40
 
 tetromino_shapes = {
     'I': [(0, 0), (-1, 0), (1, 0), (2, 0)],
@@ -40,14 +40,18 @@ class Tetromino(Widget):
                 self.blocks.append(Rectangle(pos=(block_x, block_y), size=(TILE, TILE)))
                 
     def move_left(self):
-        if all((block.x - TILE) >= 0 for block in self.blocks):
+        if all((block.pos[0] - TILE) >= 0 for block in self.blocks):
             for block in self.blocks:
-                block.x -= TILE
+                x, y = block.pos
+                block.pos = (x - TILE, y)
+
 
     def move_right(self):
-        if all((block.x + TILE) < W * TILE for block in self.blocks):
+        if all((block.pos[0] + TILE) < W * TILE for block in self.blocks):
             for block in self.blocks:
-                block.x += TILE
+                x, y = block.pos
+                block.pos = (x + TILE, y)
+
     def rotate(self):
         pivot = self.blocks[0].pos
         for block in self.blocks:
@@ -77,11 +81,11 @@ class GameScreen(Screen):
         self.grid_layout = GridLayout(cols=self.cols)
         self.create_grid()
         self.add_widget(self.grid_layout)
-        self.start_game()  # Start the game immediately for testing; move this to a proper start game trigger
-
+        self.start_game() # Start the game
+        
     def start_game(self):
         self.current_tetromino = Tetromino(shape=random.choice(list(tetromino_shapes.keys())))  # Create a new tetromino with a random shape
-        self.add_widget(self.current_tetromino)  # Add the tetromino to the game screen
+        self.add_widget(self.current_tetromino)
 
     
     def _on_keyboard_closed(self):
@@ -112,7 +116,7 @@ class TitleScreen(Screen):
             size_hint=(None, None),
             size=(300, 75),
             background_color=[0.2, 1, 1, 1],
-            pos_hint={"center_x": 0.5, "center_y": 0.4},  # Center the button
+            pos_hint={"center_x": 0.5, "center_y": 0.5},  # Center the button
         )
         start_button.bind(on_press=self.on_button_press)
         self.add_widget(start_button)
