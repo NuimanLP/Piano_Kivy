@@ -38,13 +38,40 @@ class Tetromino(Widget):
                 block_x = (W // 2 + x) * TILE  
                 block_y = (H - 1 + y) * TILE  
                 self.blocks.append(Rectangle(pos=(block_x, block_y), size=(TILE, TILE)))
+    
+    def can_move(self):
+        for block in self.blocks:
+            x, y = block.pos
+            grid_x, grid_y = int(x / TILE), int(y / TILE)
+            if grid_x <= 0 or self.parent.board[grid_y][grid_x - 1]:
+                return False
+        return True
+    
+    def update_board(self, tetromino):
+        for block in tetromino.blocks:
+            x, y = block.pos
+            grid_x, grid_y = int(x / TILE), int(y / TILE)
+            self.board[grid_y][grid_x] = True 
+            
+    def clear_lines(self):
+        new_board = [row for row in self.board if not all(row)]
+        lines_cleared = H - len(new_board)
+        for _ in range(lines_cleared):
+            new_board.insert(0, [False for _ in range(W)])
+        self.board = new_board
+    
+    def check_game_over(self):
+        for x in range(W):
+            if self.board[0][x]:
+                return True
+        return False
+
                 
     def move_left(self):
         if all((block.pos[0] - TILE) >= 0 for block in self.blocks):
             for block in self.blocks:
                 x, y = block.pos
                 block.pos = (x - TILE, y)
-
 
     def move_right(self):
         if all((block.pos[0] + TILE) < W * TILE for block in self.blocks):
@@ -74,6 +101,7 @@ class TetrisGame(ScreenManager):
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super(GameScreen, self).__init__(**kwargs)
+        self.board = [[False for _ in range(W)] for _ in range(H)]
         self._keyboard = Window.request_keyboard(self._on_keyboard_closed, self)
         self._keyboard.bind(on_key_down=self._on_key_down)
         self.current_tetromino = None
