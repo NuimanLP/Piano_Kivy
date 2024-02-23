@@ -77,7 +77,6 @@ class Tetromino(Widget):
             if self.board[0][x]:
                 return True
         return False
-
                 
     def move_left(self):
         if all((block.pos[0] - TILE) >= 0 for block in self.blocks):
@@ -163,6 +162,21 @@ class GameScreen(Screen):
     def create_grid(self):
         for _ in range(self.cols * self.rows):
             self.grid_layout.add_widget(Widget())
+            
+    def place_tetromino(self):
+        for block in self.current_tetromino.blocks:
+            x, y = block.pos
+            grid_x, grid_y = int(x / TILE), int(y / TILE)
+            self.board[grid_y][grid_x] = True
+        self.clear_lines()
+        if self.check_game_over():
+            self.end_game()
+        else:
+            self.spawn_new_tetromino()  # Spawn
+            
+    def spawn_new_tetromino(self):
+        self.current_tetromino = Tetromino(shape=random.choice(list(tetromino_shapes.keys())))
+        self.add_widget(self.current_tetromino)
             
     def end_game(self):
         Clock.unschedule(self.game_tick)
