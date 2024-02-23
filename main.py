@@ -39,13 +39,25 @@ class Tetromino(Widget):
                 block_y = (H - 1 + y) * TILE  
                 self.blocks.append(Rectangle(pos=(block_x, block_y), size=(TILE, TILE)))
     
-    def can_move(self):
+    def can_move(self, dx, dy):
         for block in self.blocks:
             x, y = block.pos
-            grid_x, grid_y = int(x / TILE), int(y / TILE)
-            if grid_x <= 0 or self.parent.board[grid_y][grid_x - 1]:
+            grid_x, grid_y = int((x + dx * TILE) / TILE), int((y + dy * TILE) / TILE)
+            # Check for boundary collisions
+            if grid_x < 0 or grid_x >= W or grid_y < 0 or grid_y >= H:
+                return False
+            # Check for collisions with placed blocks
+            if self.parent.board[grid_y][grid_x]:
                 return False
         return True
+    
+    def move(self, dx, dy):
+        if self.can_move(dx, dy):
+            for block in self.blocks:
+                x, y = block.pos
+                block.pos = (x + dx * TILE, y + dy * TILE)
+            return True
+        return False
     
     def update_board(self, tetromino):
         for block in tetromino.blocks:
@@ -110,11 +122,29 @@ class GameScreen(Screen):
         self.create_grid()
         self.add_widget(self.grid_layout)
         self.start_game() # Start the game
+        Clock.schedule_interval(self.game_tick, 1.0)
+        
+    def place_tetromino(self):
+        for block in self.current_tetromino.blocks:
+            x, y = block.pos
+            grid_x, grid_y = int(x / TILE), int(y / TILE)
+            self.board[grid_y][grid_x] = True
         
     def start_game(self):
         self.current_tetromino = Tetromino(shape=random.choice(list(tetromino_shapes.keys())))  # Create a new tetromino with a random shape
         self.add_widget(self.current_tetromino)
 
+    def game_tick(self, dt):
+        if not self.try_move_down():
+            self.place_tetromino()
+            self.clear_lines()
+            if self.check_game_over():
+                self.end_game()
+            else:
+                self.spawn_new_tetromino()
+                
+    def try_move_down(self):
+        return self.current_tetromino.move(0, -1)
     
     def _on_keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_key_down)
@@ -133,6 +163,9 @@ class GameScreen(Screen):
     def create_grid(self):
         for _ in range(self.cols * self.rows):
             self.grid_layout.add_widget(Widget())
+            
+    def end_game(self):
+        Clock.unschedule(self.game_tick)
 
 
 class TitleScreen(Screen):
