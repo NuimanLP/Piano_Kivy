@@ -8,10 +8,33 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.graphics import Color, Rectangle
 from kivy.core.window import Window
 import random
+from kivy.graphics import Color, Rectangle,Line
+
+
+
+class Block(Widget):
+    def __init__(self, color, **kwargs):
+        super(Block, self).__init__(**kwargs)
+        self.bind(pos=self.update_graphics_pos)
+        self.size = (TILE, TILE)
+        with self.canvas:
+            self.color = Color(*color)
+            self.rect = Rectangle(pos=self.pos, size=self.size)
+
+    def update_graphics_pos(self, instance, value):
+        self.rect.pos = value
+
+
+    # def update_color(self, color):
+    #     self.canvas.before.clear()  # Clear previous color
+    #     with self.canvas.before:
+    #         Color(*color)
+    #         self.rect = Rectangle(pos=self.pos, size=self.size)
 
 TILE = 30
 
 W, H = 20, 40
+
 
 tetromino_shapes = {
     'I': [(0, 0), (-1, 0), (1, 0), (2, 0)],
@@ -33,21 +56,19 @@ class Tetromino(Widget):
 
     def create_blocks(self):
         with self.canvas:
-            Color(1, 0, 0, 1)
+            Color = (1, 0, 0, 1)  # Red color
             for x, y in self.shape:
                 block_x = (W // 2 + x) * TILE  
                 block_y = (H - 1 + y) * TILE  
-                self.blocks.append(Rectangle(pos=(block_x, block_y), size=(TILE, TILE)))
+                block = Block(color=Color, pos=(block_x, block_y), size=(TILE, TILE))
+                self.blocks.append(block)
+                self.add_widget(block) 
     
     def can_move(self, dx, dy):
         for block in self.blocks:
             x, y = block.pos
             grid_x, grid_y = int((x + dx * TILE) / TILE), int((y + dy * TILE) / TILE)
-            # Check for boundary collisions
-            if grid_x < 0 or grid_x >= W or grid_y < 0 or grid_y >= H:
-                return False
-            # Check for collisions with placed blocks
-            if self.parent.board[grid_y][grid_x]:
+            if grid_x < 0 or grid_x >= W or grid_y < 0 or grid_y >= H or self.parent.board[grid_y][grid_x]:
                 return False
         return True
     
@@ -71,12 +92,6 @@ class Tetromino(Widget):
         for _ in range(lines_cleared):
             new_board.insert(0, [False for _ in range(W)])
         self.board = new_board
-    
-    def check_game_over(self):
-        for x in range(W):
-            if self.board[0][x]:
-                return True
-        return False
                 
     def move_left(self):
         if all((block.pos[0] - TILE) >= 0 for block in self.blocks):
@@ -91,13 +106,26 @@ class Tetromino(Widget):
                 block.pos = (x + TILE, y)
 
     def rotate(self):
-        pivot = self.blocks[0].pos
+        pivot = self.blocks[0].pos  # Use the first block as the pivot
+        new_positions = []
         for block in self.blocks:
             x, y = block.pos
+            # Calculate relative positions
             rel_x, rel_y = x - pivot[0], y - pivot[1]
+            # Rotate 90 degrees
             new_x = -rel_y + pivot[0]
             new_y = rel_x + pivot[1]
+            # Check if the new position is valid
+            grid_x, grid_y = int(new_x / TILE), int(new_y / TILE)
+            if (grid_x < 0 or grid_x >= W or grid_y < 0 or 
+                grid_y >= H or self.parent.board[grid_y][grid_x]):
+                return # Rotation is invalid
+            new_positions.append((new_x, new_y))
+        
+        # Apply new positions after verifying all are valid
+        for block, (new_x, new_y) in zip(self.blocks, new_positions):
             block.pos = (new_x, new_y)
+
 
 
 class TetrisGame(ScreenManager):
@@ -122,28 +150,53 @@ class GameScreen(Screen):
         self.add_widget(self.grid_layout)
         self.start_game() # Start the game
         Clock.schedule_interval(self.game_tick, 1.0)
+        self.score_label = Label(text="Score: 0", font_size= TILE, pos_hint={"right": 0.95, "top": 0.95})
+        self.add_widget(self.score_label)
         
-    def place_tetromino(self):
-        for block in self.current_tetromino.blocks:
-            x, y = block.pos
-            grid_x, grid_y = int(x / TILE), int(y / TILE)
-            self.board[grid_y][grid_x] = True
         
     def start_game(self):
         self.current_tetromino = Tetromino(shape=random.choice(list(tetromino_shapes.keys())))  # Create a new tetromino with a random shape
         self.add_widget(self.current_tetromino)
+        
+    def spawn_new_tetromino(self):
+        shape = random.choice(list(tetromino_shapes.keys()))
+        self.current_tetromino = Tetromino(shape=shape)
+        self.current_tetromino.pos = ((W // 2) - 1) * TILE, (H+1) * TILE  
+        self.add_widget(self.current_tetromino)
 
+    # def check_game_over(self):
+    #     # How the fack i do this ahhh hell
+    #     for x in range(H):
+    #         if self.board[0][]:
+    #             print('Game Over Borad [0][x]!')
+    #             return False  # Game is over
+    #     return True and print('Game not over')  # Game is not over
+
+    def try_move_down(self):
+        moved_down = self.current_tetromino.move(0, -1)
+        print("Moved down",moved_down)
+        return moved_down
     def game_tick(self, dt):
         if not self.try_move_down():
             self.place_tetromino()
             self.clear_lines()
-            if self.check_game_over():
-                self.end_game()
-            else:
-                self.spawn_new_tetromino()
-                
-    def try_move_down(self):
-        return self.current_tetromino.move(0, -1)
+            # if self.check_game_over():
+            #     self.end_game()
+            # else:
+            self.spawn_new_tetromino() # Ensure game over check is negated correctly
+    def place_tetromino(self):
+        for block in self.current_tetromino.blocks:
+            x, y = block.pos
+            grid_x, grid_y = int(x / TILE), int(y / TILE)
+            self.board[grid_y][grid_x] = True  # Mark the cell as occupied
+            self.clear_lines()
+        # if  self.check_game_over():
+            self.spawn_new_tetromino()
+        # else:
+            self.end_game()
+            
+    def end_game(self):
+        Clock.unschedule(self.game_tick)
     
     def _on_keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_key_down)
@@ -152,34 +205,39 @@ class GameScreen(Screen):
     def _on_key_down(self, keyboard, keycode, text, modifiers):
         if self.current_tetromino:
             if keycode[1] == 'left':
-                self.current_tetromino.move_left()
+                self.current_tetromino.move(-1, 0)
             elif keycode[1] == 'right':
-                self.current_tetromino.move_right()
+                self.current_tetromino.move(1, 0)
             elif keycode[1] == 'up':
                 self.current_tetromino.rotate()
+            elif keycode[1] == 'down':
+                if not self.try_move_down():# If the tetromino can't move down
+                    print("Can't move down more Bro!")
+                    self.place_tetromino()
         return True
-
     def create_grid(self):
-        for _ in range(self.cols * self.rows):
-            self.grid_layout.add_widget(Widget())
-            
-    def place_tetromino(self):
-        for block in self.current_tetromino.blocks:
-            x, y = block.pos
-            grid_x, grid_y = int(x / TILE), int(y / TILE)
-            self.board[grid_y][grid_x] = True
-        self.clear_lines()
-        if self.check_game_over():
-            self.end_game()
-        else:
-            self.spawn_new_tetromino()  # Spawn
-            
-    def spawn_new_tetromino(self):
-        self.current_tetromino = Tetromino(shape=random.choice(list(tetromino_shapes.keys())))
-        self.add_widget(self.current_tetromino)
-            
-    def end_game(self):
-        Clock.unschedule(self.game_tick)
+        with self.canvas.before:
+            Color(0.6, 0.6, 0.6, 1)  # Gray color for the grid lines
+            # Vertical lines
+            for i in range(W + 1):
+                x = i * TILE
+                Line(points=[x, 0, x, H * TILE])
+            # Horizontal lines
+            for i in range(H + 1):
+                y = i * TILE
+                Line(points=[0, y, W * TILE, y])
+                
+    def clear_lines(self):
+        new_board = []
+        lines_cleared = 0
+        for row in self.board:
+            if all(row): 
+                lines_cleared += 1
+            else:
+                new_board.append(row) 
+        for _ in range(lines_cleared):
+            new_board.insert(0, [False for _ in range(W)])
+        self.board = new_board  # Update the board
 
 
 class TitleScreen(Screen):
