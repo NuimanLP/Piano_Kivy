@@ -31,9 +31,9 @@ class Block(Widget):
     #         Color(*color)
     #         self.rect = Rectangle(pos=self.pos, size=self.size)
 
-TILE = 30
+TILE = 65
 
-W, H = 20, 40
+W, H = 15, 25
 
 
 tetromino_shapes = {
@@ -59,12 +59,14 @@ class Tetromino(Widget):
             Color = (1, 0, 0, 1)  # Red color
             for x, y in self.shape:
                 block_x = (W // 2 + x) * TILE  
-                block_y = (H - 1 + y) * TILE  
+                print("block_x",block_x)
+                block_y = (H - 1 + y) * TILE 
+                print("block_y",block_y) 
                 block = Block(color=Color, pos=(block_x, block_y), size=(TILE, TILE))
                 self.blocks.append(block)
                 self.add_widget(block) 
     
-    def can_move(self, dx, dy):
+    def can_move(self, dx, dy): # The can_move function acts as a collision-detection mechanism.
         for block in self.blocks:
             x, y = block.pos
             grid_x, grid_y = int((x + dx * TILE) / TILE), int((y + dy * TILE) / TILE)
@@ -216,15 +218,18 @@ class GameScreen(Screen):
                     self.place_tetromino()
         return True
     def create_grid(self):
+        # Create gray color for the grid lines
         with self.canvas.before:
             Color(0.6, 0.6, 0.6, 1)  # Gray color for the grid lines
             # Vertical lines
             for i in range(W + 1):
                 x = i * TILE
+                # Draw vertical line from (x, 0) to (x, H * TILE)
                 Line(points=[x, 0, x, H * TILE])
             # Horizontal lines
             for i in range(H + 1):
                 y = i * TILE
+                # Draw horizontal line from (0, y) to (W * TILE, y)
                 Line(points=[0, y, W * TILE, y])
                 
     def clear_lines(self):
