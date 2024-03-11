@@ -28,6 +28,13 @@ class Piano(GridLayout):
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
 
         self.is_pressed()
+        
+    #Make Buttons
+    def make_buttons(self):
+        for text in range(1, 9):
+            self.add_widget(Button(text=str(text), size_hint=(0.1, 0.01)))
+
+
 
 
 class PianoApp(App):
