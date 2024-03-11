@@ -39,6 +39,9 @@ class Piano(GridLayout):
         for child in self.children:
             child.bind(on_press=self.callback)
 
+    #callback for pressing buttons
+    def callback(self, instance):
+        self.Sound(int(instance.text) - 1)
 
 class PianoApp(App):
     def build(self):
