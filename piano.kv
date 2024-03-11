@@ -13,7 +13,7 @@
         background_color: 0, 0, 0, 0
         size_hint: None, .1
         width: self.height * 3.5
-        pos_hint: {'center_x': .3, 'center_y': .5}
+        pos_hint: {'center_x': 0.3, 'center_y': 0.5}
         markup: True
         text: '[b]Play[/b]'
         font_size: 80
@@ -31,9 +31,8 @@
     name: 'piano'
     canvas.before:
         Color:
-            rgba: 1, 1, 1, 1 # your color here
+            rgba: (25, 25, 25, 0.1)
         Rectangle:
-            source: "source/game_background_2.jpeg"
             pos: self.pos
             size: self.size
     
