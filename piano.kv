@@ -1,0 +1,29 @@
+#:kivy 2.3.0
+
+<TitleScreen>:
+    name: 'title'
+    canvas.before:
+        Color: 
+            rgba: 0.8, 0.8, 0.8, 0.8 #color of background
+        Rectangle:
+            source:'source/test.jpg'
+            pos: self.pos
+            size: self.size
+    Button:
+		background_color: 0, 60, 250, 0.5
+        size_hint: None, .10
+        width: self.height * 2
+        pos_hint: {'center_x': .5, 'center_y': .4}
+        text: 'Start'
+        on_release: root.manager.start_app()
+
+<GameScreen>:
+    name: 'piano'
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1 # your color here
+        Rectangle:
+            source: "source/game_background_2.jpeg"
+            pos: self.pos
+            size: self.size
+    
