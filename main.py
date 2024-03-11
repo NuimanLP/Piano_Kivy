@@ -4,10 +4,10 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.properties import ObjectProperty
 
 
-class AppManager(ScreenManager):
+class GameManager(ScreenManager):
 
     def __init__(self, *args, **kwargs):
-        super(AppManager, self).__init__(*args, **kwargs)
+        super(GameManager, self).__init__(*args, **kwargs)
         self.add_widget(TitleScreen())
 
     def start_app(self):
@@ -27,7 +27,7 @@ class GameScreen(Screen):
 
 class PianoApp(App):
     def build(self):
-        return AppManager()
+        return GameManager()
 
 
 if __name__ == "__main__":
