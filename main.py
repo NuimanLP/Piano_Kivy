@@ -69,7 +69,7 @@ class Piano(GridLayout):
 
 class PianoApp(App):
     def build(self):
-        return
+        return Piano()
 
 
 if __name__ == "__main__":
