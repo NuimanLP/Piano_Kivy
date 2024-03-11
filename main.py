@@ -1,7 +1,10 @@
 from kivy.app import App
-from kivy.uix.widget import Widget
-from kivy.uix.screenmanager import Screen, ScreenManager
-from kivy.properties import ObjectProperty
+from kivy.core.audio import SoundLoader
+from kivy.core.window import Window
+
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.button import Button
+from kivy.properties import Clock
 
 
 class GameManager(ScreenManager):
@@ -16,28 +19,12 @@ class GameManager(ScreenManager):
         self.add_widget(GameScreen())
         self.current = "piano"
 
-    def setting_app(self):
-        if self.has_screen("setting"):
-            self.remove_widget(self.get_screen("setting"))
-        self.add_widget(SettingScreen())
-        self.current = "setting"
-
-    def back(self):
-        if self.has_screen("setting") or self.has_screen("piano"):
-            self.remove_widget(self.get_screen("title"))
-        self.add_widget(TitleScreen())
-        self.current = "title"
-
 
 class TitleScreen(Screen):
     pass
 
 
 class GameScreen(Screen):
-    pass
-
-
-class SettingScreen(Screen):
     pass
 
 
