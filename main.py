@@ -22,6 +22,12 @@ class GameManager(ScreenManager):
         self.add_widget(SettingScreen())
         self.current = "setting"
 
+    def back(self):
+        if self.has_screen("setting") or self.has_screen("piano"):
+            self.remove_widget(self.get_screen("title"))
+        self.add_widget(TitleScreen())
+        self.current = "title"
+
 
 class TitleScreen(Screen):
     pass
