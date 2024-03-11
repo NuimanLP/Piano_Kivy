@@ -14,7 +14,8 @@
         size_hint: None, .1
         width: self.height * 3.5
         pos_hint: {'center_x': .3, 'center_y': .5}
-        text: 'Play'
+        markup: True
+        text: '[b]Play[/b]'
         font_size: 80
         color: (0, 0, 0, 1)
         on_release: root.manager.start_app()
