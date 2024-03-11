@@ -4,18 +4,18 @@
     name: 'title'
     canvas.before:
         Color: 
-            rgba: 0.8, 0.8, 0.8, 0.8 #color of background
+            rgba: 1, 1, 1, 1 #color of background
         Rectangle:
-            source:'source/test.jpg'
+            source:'source/title.jpg'
             pos: self.pos
             size: self.size
-    Button:
-		background_color: 0, 60, 250, 0.5
-        size_hint: None, .10
-        width: self.height * 2
-        pos_hint: {'center_x': .5, 'center_y': .4}
-        text: 'Start'
-        on_release: root.manager.start_app()
+    # Button:
+	# 	background_color: 0, 60, 250, 0.5
+    #     size_hint: None, .10
+    #     width: self.height * 2
+    #     pos_hint: {'center_x': .5, 'center_y': .4}
+    #     text: 'Start'
+    #     on_release: root.manager.start_app()
 
 <GameScreen>:
     name: 'piano'
