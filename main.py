@@ -59,6 +59,13 @@ class Piano(GridLayout):
         for child in self.children:
             child.background_color = [1, 1, 1, 1]
 
+    #event when we push keyboard keys
+    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        for index, item in enumerate(Key):
+            if keycode[1] == item:
+                self.children[-index - 1].background_color = (0, 2, 2, 1)
+                self.Sound(index)
+                Clock.schedule_once(self.my_callback, 0.4)
 
 class PianoApp(App):
     def build(self):
