@@ -9,13 +9,22 @@
             source:'source/title.jpg'
             pos: self.pos
             size: self.size
-    # Button:
-	# 	background_color: 0, 60, 250, 0.5
-    #     size_hint: None, .10
-    #     width: self.height * 2
-    #     pos_hint: {'center_x': .5, 'center_y': .4}
-    #     text: 'Start'
-    #     on_release: root.manager.start_app()
+    Button:
+        background_color: 0, 0, 0, 0
+        size_hint: None, .1
+        width: self.height * 3.5
+        pos_hint: {'center_x': .3, 'center_y': .5}
+        text: 'Play'
+        font_size: 80
+        color: (0, 0, 0, 1)
+        on_release: root.manager.start_app()
+        canvas.before:
+            Color:
+                rgba: (255, 255, 255, 0.9)
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+                radius: [20, 20] 
 
 <GameScreen>:
     name: 'piano'
