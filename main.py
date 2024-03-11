@@ -49,10 +49,15 @@ class Piano(GridLayout):
         if sound:
             sound.play()
         return True
-    
+
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
         self._keyboard = None
+
+    # callback for change color of Buttons
+    def my_callback(self, dt):
+        for child in self.children:
+            child.background_color = [1, 1, 1, 1]
 
 
 class PianoApp(App):
