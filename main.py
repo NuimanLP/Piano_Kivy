@@ -39,9 +39,17 @@ class Piano(GridLayout):
         for child in self.children:
             child.bind(on_press=self.callback)
 
-    #callback for pressing buttons
+    # callback for pressing buttons
     def callback(self, instance):
         self.Sound(int(instance.text) - 1)
+
+    # play sounds
+    def Sound(self, index):
+        sound = SoundLoader.load("wav/%d.wav" % index)
+        if sound:
+            sound.play()
+        return True
+
 
 class PianoApp(App):
     def build(self):
