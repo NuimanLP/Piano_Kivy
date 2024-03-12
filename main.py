@@ -5,6 +5,8 @@ from kivy.core.window import Window
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.properties import Clock
+from kivy.uix.slider import Slider
+
 
 Key = [
     "1",
@@ -21,7 +23,7 @@ Key = [
 class Piano(GridLayout):
     def __init__(self, **kwargs):
         super(Piano, self).__init__(**kwargs)
-        self.cols = 10
+        self.cols = 8
         self.make_buttons()
 
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
@@ -31,8 +33,8 @@ class Piano(GridLayout):
 
     # Make Buttons
     def make_buttons(self):
-        for text in range(1, 9):
-            self.add_widget(Button(text=str(text), size_hint=(0.1, 0.01)))
+        for text in range(1, 25):
+            self.add_widget(Button(text=str(text), size_hint=(0.1, 0.1)))
 
     # Check to clicked buttons
     def is_pressed(self):
