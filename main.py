@@ -6,7 +6,7 @@ from kivy.uix.button import Button
 from kivy.uix.slider import Slider
 from kivy.clock import Clock
 
-Key = ["1", "2", "3", "4", "5", "6", "7", "8"]
+Key = ["q", "w", "e", "r", "u", "i", "o", "p","a", "s", "d", "f", "j", "k", "l", ";","z", "x", "c", "v", "m", ",", ".", "/",]
 
 class Piano(GridLayout):
     def __init__(self, **kwargs):
