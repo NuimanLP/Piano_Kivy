@@ -16,7 +16,7 @@ class Piano(GridLayout):
         self.volume_control = Slider(min=0, max=1, value=0.5, orientation='horizontal', size_hint_y=None, height=50)
         self.add_widget(self.volume_control)
 
-        self.keys_layout = GridLayout(cols=8, size_hint_y=100, height=600)
+        self.keys_layout = GridLayout(cols=7, size_hint_y=100, height=600)
         self.make_buttons()
         self.add_widget(self.keys_layout)
 
@@ -27,7 +27,7 @@ class Piano(GridLayout):
 
     # Make Buttons
     def make_buttons(self):
-        notes = ['C1', 'D1', 'E1', 'F1', 'G1', 'A1', 'B1', 'C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3']
+        notes = ['C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4']
         for note in notes:
             self.keys_layout.add_widget(Button(text=note, size_hint=(0.1, 0.1)))
             
@@ -60,11 +60,18 @@ class Piano(GridLayout):
 
     # event when we push keyboard keys
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        for index, item in enumerate(Key):
-            if keycode[1] == item:
-                self.keys_layout.children[-index - 1].background_color = (0, 2, 2, 1)
-                self.Sound(index)
-                Clock.schedule_once(self.my_callback, 0.4)
+        # Check if the pressed key is one of the piano keys
+        if keycode[1] in Key:
+            index = Key.index(keycode[1])  # Find the index of the pressed key in the Key list
+            # Ensure the index is within the range of the notes list
+            if index < len(self.keys_layout.children):
+                note_button = self.keys_layout.children[-index - 1]  # Get the corresponding button
+                note_button.background_color = (0, 2, 2, 1)  # Change the button's color for visual feedback
+                note = note_button.text  # Get the note from the button's text
+                self.Sound(note)  # Play the sound for the note
+                Clock.schedule_once(self.my_callback, 0.4)  # Reset the button color after a delay
+
+
 
 
 class PianoApp(App):
