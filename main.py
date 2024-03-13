@@ -60,16 +60,14 @@ class Piano(GridLayout):
 
     # event when we push keyboard keys
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        # Check if the pressed key is one of the piano keys
         if keycode[1] in Key:
             index = Key.index(keycode[1])  # Find the index of the pressed key in the Key list
-            # Ensure the index is within the range of the notes list
             if index < len(self.keys_layout.children):
                 note_button = self.keys_layout.children[-index - 1]  # Get the corresponding button
-                note_button.background_color = (0, 2, 2, 1)  # Change the button's color for visual feedback
+                note_button.background_color = (0, 2, 2, 1)
                 note = note_button.text  # Get the note from the button's text
-                self.Sound(note)  # Play the sound for the note
-                Clock.schedule_once(self.my_callback, 0.4)  # Reset the button color after a delay
+                self.Sound(note)
+                Clock.schedule_once(self.my_callback, 0.4)
 
 
 
