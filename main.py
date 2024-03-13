@@ -27,9 +27,10 @@ class Piano(GridLayout):
 
     # Make Buttons
     def make_buttons(self):
-        for text in range(1, 25):
-            self.keys_layout.add_widget(Button(text=str(text), size_hint=(0.1, 0.1)))
-
+        notes = ['C1', 'D1', 'E1', 'F1', 'G1', 'A1', 'B1', 'C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3']
+        for note in notes:
+            self.keys_layout.add_widget(Button(text=note, size_hint=(0.1, 0.1)))
+            
     # Check to clicked buttons
     def is_pressed(self):
         for child in self.keys_layout.children:
@@ -37,11 +38,13 @@ class Piano(GridLayout):
 
     # callback for pressing buttons
     def callback(self, instance):
-        self.Sound(int(instance.text) - 1)
+        note = instance.text
+        self.Sound(note)
+
 
     # play sounds
-    def Sound(self, index):
-        sound = SoundLoader.load(f"wav/{index}.wav")
+    def Sound(self, note):
+        sound = SoundLoader.load(f"wav/{note}.wav")
         if sound:
             sound.volume = self.volume_control.value
             sound.play()
