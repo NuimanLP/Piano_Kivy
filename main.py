@@ -94,6 +94,14 @@ class GameScreen(Screen, GridLayout):
         if sound:
             sound.play()
         return True
+    
+    def make_sound_keyboard(self, note):
+        sound = SoundLoader.load(f"wav/{note}.wav")
+        if sound:
+            sound.play()
+            Clock.schedule_once(lambda dt: sound.stop(), 0.5)
+
+        return True
         
 class SettingScreen(Screen):
     pass
