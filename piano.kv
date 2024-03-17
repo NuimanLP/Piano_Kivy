@@ -74,7 +74,7 @@
             source:'source/game.jpg'
             pos: self.pos
             size: self.size
-            
+
   ########## Function ##########
     Button: # Back to Title
         background_color: 0, 0, 0, 0
@@ -111,3 +111,19 @@
                 size: self.size
                 pos: self.pos
                 radius: [20, 20]
+
+    Label:
+        text: 'Now Key'
+        id: 'Now Key'
+        size_hint: None, .05
+        width: self.height * 2.5
+        pos_hint: {'center_x': 0.1, 'center_y': 0.75}
+        color: (0, 0, 0, 1)
+        markup: True
+        canvas.before:
+            Color:
+                rgba: 255, 255, 255, 1  # Semi-transparent blue background
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+                radius: [10, 10]
