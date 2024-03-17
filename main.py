@@ -124,6 +124,10 @@ class GameScreen(Screen, GridLayout):
             self.current_index += 1
             self.update_key()
 
+    def transpose_down(self):
+        if self.current_index > 0:
+            self.current_index -= 1
+            self.update_key()
         
 class SettingScreen(Screen):
     pass
