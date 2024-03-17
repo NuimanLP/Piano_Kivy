@@ -28,20 +28,38 @@
                     pos: self.pos
                     radius: [20, 20]
     
-      Button: # Go to Setting
-        background_color: 0, 0, 0, 0
-        size_hint: None, .1
-        width: self.height * 3.5
-        pos_hint: {'center_x': 0.3, 'center_y': 0.35}
-        markup: True
-        text: '[b]Setting[/b]'
-        font_size: 80
-        color: (0, 0, 0, 1)
-        on_release: root.manager.setting_app()
-        canvas.before:
-            Color:
-                rgba: (255, 255, 255, 0.9)
-            RoundedRectangle:
-                size: self.size
-                pos: self.pos
-                radius: [20, 20]
+    Button: # Go to Setting
+    background_color: 0, 0, 0, 0
+    size_hint: None, .1
+    width: self.height * 3.5
+    pos_hint: {'center_x': 0.3, 'center_y': 0.35}
+    markup: True
+    text: '[b]Setting[/b]'
+    font_size: 80
+    color: (0, 0, 0, 1)
+    on_release: root.manager.setting_app()
+    canvas.before:
+        Color:
+            rgba: (255, 255, 255, 0.9)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [20, 20]
+            
+    Button: # Exit
+            background_color: 0, 0, 0, 0
+            size_hint: None, .1
+            width: self.height * 3.5
+            pos_hint: {'center_x': 0.3, 'center_y': 0.2}
+            markup: True
+            text: '[b]Exit[/b]'
+            font_size: 80
+            color: (0, 0, 0, 1)
+            on_release: root.manager.exit_app()
+            canvas.before:
+                Color:
+                    rgba: (255, 255, 255, 0.9)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [20, 20]
