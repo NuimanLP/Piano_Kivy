@@ -374,3 +374,12 @@
         color: (1, 1, 1, 1)
         on_press: root.on_press(self)
         on_release: root.on_release_b(self)
+
+<SettingScreen>:
+    name: 'setting'
+    canvas.before:
+        Color:
+            rgba: (0, 0, 0, 0.1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
