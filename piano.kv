@@ -127,3 +127,21 @@
                 size: self.size
                 pos: self.pos
                 radius: [10, 10]
+
+    Button:
+        background_color: 0, 0, 0, 0
+        size_hint: None, .05
+        width: self.height * 2.5
+        pos_hint: {'center_x': 0.1, 'center_y': 0.68}
+        markup: True
+        text: '[b]-[/b]'
+        font_size: 40
+        color: (0, 0, 0, 1)
+        on_press: root.transpose_down()
+        canvas.before:
+            Color:
+                rgba: (255, 255, 255, 0.9)
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+                radius: [20, 20]
