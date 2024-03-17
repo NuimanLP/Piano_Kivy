@@ -27,6 +27,12 @@ class GameManager(ScreenManager):
     def exit_app(self):
         App.get_running_app().stop()
         
+    def back(self):
+            if self.has_screen("setting") or self.has_screen("piano"):
+                self.remove_widget(self.get_screen("title"))
+            self.add_widget(TitleScreen())
+            self.current = "title"
+        
 class PianoApp(App):
    def build(self):
         return GameManager()
