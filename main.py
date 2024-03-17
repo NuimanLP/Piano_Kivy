@@ -17,7 +17,11 @@ class GameManager(ScreenManager):
             self.remove_widget(self.get_screen("piano"))
         self.add_widget(GameScreen())
         self.current = "piano"
-
+    def setting_app(self):
+            if self.has_screen("setting"):
+                self.remove_widget(self.get_screen("setting"))
+            self.add_widget(SettingScreen())
+            self.current = "setting"
 class PianoApp(App):
    def build(self):
         return GameManager()
