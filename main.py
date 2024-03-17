@@ -84,6 +84,11 @@ class GameScreen(Screen, GridLayout):
             self.children[i].text = current_note[24 - i]
         self.children[26].text = f"[b]KEY {self.note_list[self.current_index]}[/b]"
         
+    def on_press(self, key):
+        key.background_color = (0.5, 0.5, 0.5, 1)
+        self.make_sound(key)
+        print(key.text)
+        
 class SettingScreen(Screen):
     pass
 
