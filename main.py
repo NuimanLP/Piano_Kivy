@@ -100,8 +100,10 @@ class GameScreen(Screen, GridLayout):
         if sound:
             sound.play()
             Clock.schedule_once(lambda dt: sound.stop(), 0.5)
-
         return True
+
+    def on_release_w(self, key):
+        key.background_color = (255, 255, 255, 1)
         
 class SettingScreen(Screen):
     pass
