@@ -44,7 +44,14 @@ class GameScreen(Screen, GridLayout):
     
     Key = [ "tab", "1", "q", "2", "w", "e", "4", "r", "5", "t", "6", "y",
             "u", "8", "i", "9", "o", "p", "-", "[", "=", "]", "backspace", "z", "x", ]
+    
+    current_index = 12
 
+    def __init__(self, **kwargs):
+        super(GameScreen, self).__init__(**kwargs)
+        self.update_key()
+        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
+        self._keyboard.bind(on_key_down=self._on_keyboard_down)
 class SettingScreen(Screen):
     pass
 
