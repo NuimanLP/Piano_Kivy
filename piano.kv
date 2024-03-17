@@ -74,3 +74,22 @@
             source:'source/game.jpg'
             pos: self.pos
             size: self.size
+            
+  ########## Function ##########
+    Button: # Back to Title
+        background_color: 0, 0, 0, 0
+        size_hint: None, .05
+        width: self.height * 2.5
+        pos_hint: {'center_x': 0.1, 'center_y': 0.925}
+        markup: True
+        text: '[b]Back[/b]'
+        font_size: 40
+        color: (0, 0, 0, 1)
+        on_release: root.manager.back()
+        canvas.before:
+            Color:
+                rgba: (255, 255, 255, 0.9)
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+                radius: [20, 20]
