@@ -119,6 +119,12 @@ class GameScreen(Screen, GridLayout):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
         self._keyboard = None
         
+    def transpose_up(self):
+        if self.current_index < 24:
+            self.current_index += 1
+            self.update_key()
+
+        
 class SettingScreen(Screen):
     pass
 
