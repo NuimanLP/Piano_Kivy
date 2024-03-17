@@ -32,7 +32,12 @@ class GameManager(ScreenManager):
                 self.remove_widget(self.get_screen("title"))
             self.add_widget(TitleScreen())
             self.current = "title"
-        
+class TitleScreen(Screen):
+    pass
+
+class SettingScreen(Screen):
+    pass
+
 class PianoApp(App):
    def build(self):
         return GameManager()
