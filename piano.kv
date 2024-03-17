@@ -383,3 +383,14 @@
         Rectangle:
             pos: self.pos
             size: self.size
+
+    Button: # Back to Title
+            background_color: 0, 0, 0, 0
+            size_hint: None, .1
+            width: self.height * 3.5
+            pos_hint: {'center_x': 0.3, 'center_y': 0.35}
+            markup: True
+            text: '[b]Back[/b]'
+            font_size: 80
+            color: (0, 0, 0, 1)
+            on_release: root.manager.back()
