@@ -89,6 +89,12 @@ class GameScreen(Screen, GridLayout):
         self.make_sound(key)
         print(key.text)
         
+    def make_sound(self, key):
+        sound = SoundLoader.load(f"wav/{key.text}.wav")
+        if sound:
+            sound.play()
+        return True
+        
 class SettingScreen(Screen):
     pass
 
