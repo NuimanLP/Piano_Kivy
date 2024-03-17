@@ -52,6 +52,35 @@ class GameScreen(Screen, GridLayout):
         self.update_key()
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
+        
+    def update_key(self):
+        current_note = [
+            self.note_list[self.current_index + 0],
+            self.note_list[self.current_index + 2],
+            self.note_list[self.current_index + 4],
+            self.note_list[self.current_index + 5],
+            self.note_list[self.current_index + 7],
+            self.note_list[self.current_index + 9],
+            self.note_list[self.current_index + 11],
+            self.note_list[self.current_index + 12],
+            self.note_list[self.current_index + 14],
+            self.note_list[self.current_index + 16],
+            self.note_list[self.current_index + 17],
+            self.note_list[self.current_index + 19],
+            self.note_list[self.current_index + 21],
+            self.note_list[self.current_index + 23],
+            self.note_list[self.current_index + 24],
+            self.note_list[self.current_index + 1],
+            self.note_list[self.current_index + 3],
+            self.note_list[self.current_index + 6],
+            self.note_list[self.current_index + 8],
+            self.note_list[self.current_index + 10],
+            self.note_list[self.current_index + 13],
+            self.note_list[self.current_index + 15],
+            self.note_list[self.current_index + 18],
+            self.note_list[self.current_index + 20],
+            self.note_list[self.current_index + 22], ]
+        
 class SettingScreen(Screen):
     pass
 
