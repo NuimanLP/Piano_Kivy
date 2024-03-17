@@ -108,6 +108,13 @@ class GameScreen(Screen, GridLayout):
     def on_release_b(self, key):
         key.background_color = (0, 0, 0, 1)
         
+    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        if keycode[1] in self.Key:
+            index = self.Key.index(keycode[1])
+            self.make_sound_keyboard(self.note_list[index + self.current_index])
+            # self.children[index].background_color = (0, 2, 2, 1)
+            # # Clock.schedule_once(self.my_callback(self.children[index]), 0.4)
+        
 class SettingScreen(Screen):
     pass
 
