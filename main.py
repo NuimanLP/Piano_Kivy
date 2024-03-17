@@ -80,6 +80,9 @@ class GameScreen(Screen, GridLayout):
             self.note_list[self.current_index + 18],
             self.note_list[self.current_index + 20],
             self.note_list[self.current_index + 22], ]
+        for i in range(25):
+            self.children[i].text = current_note[24 - i]
+        self.children[26].text = f"[b]KEY {self.note_list[self.current_index]}[/b]"
         
 class SettingScreen(Screen):
     pass
