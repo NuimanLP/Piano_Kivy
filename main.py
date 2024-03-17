@@ -8,7 +8,9 @@ from kivy.clock import Clock
 
 
 class GameManager(ScreenManager):
-  pass
+    def __init__(self, *args, **kwargs):
+        super(GameManager, self).__init__(*args, **kwargs)
+        self.add_widget(TitleScreen())
 
 class PianoApp(App):
    def build(self):
