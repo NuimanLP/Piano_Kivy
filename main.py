@@ -105,6 +105,9 @@ class GameScreen(Screen, GridLayout):
     def on_release_w(self, key):
         key.background_color = (255, 255, 255, 1)
         
+    def on_release_b(self, key):
+        key.background_color = (0, 0, 0, 1)
+        
 class SettingScreen(Screen):
     pass
 
