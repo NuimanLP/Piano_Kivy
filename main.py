@@ -114,8 +114,7 @@ class GameScreen(Screen, GridLayout):
         if keycode[1] in self.Key:
             index = self.Key.index(keycode[1])
             self.make_sound_keyboard(self.note_list[index + self.current_index])
-
-            
+   
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
         self._keyboard = None
