@@ -95,7 +95,12 @@ class GameScreen(Screen, GridLayout):
             sound.volume = self.children[26].value
             sound.play()
         return True
-    
+            
+    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        if keycode[1] in self.Key:
+            index = self.Key.index(keycode[1])
+            self.make_sound_keyboard(self.note_list[index + self.current_index])
+            
     def make_sound_keyboard(self, note):
         sound = SoundLoader.load(f"wav/{note}.wav")
         if sound:
@@ -109,12 +114,7 @@ class GameScreen(Screen, GridLayout):
         
     def on_release_b(self, key):
         key.background_color = (0, 0, 0, 1)
-        
-    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        if keycode[1] in self.Key:
-            index = self.Key.index(keycode[1])
-            self.make_sound_keyboard(self.note_list[index + self.current_index])
-   
+
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
         self._keyboard = None
