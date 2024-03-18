@@ -52,6 +52,7 @@ class GameScreen(Screen, GridLayout):
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
         
+        
     def update_key(self):
         current_note = [
             self.note_list[self.current_index + 0],
@@ -81,7 +82,7 @@ class GameScreen(Screen, GridLayout):
             self.note_list[self.current_index + 22], ]
         for i in range(25):
             self.children[i].text = current_note[24 - i]
-        self.children[26].text = f"[b]KEY {self.note_list[self.current_index]}[/b]"
+        self.children[25].text = f"[b]KEY {self.note_list[self.current_index]}[/b]"
         
     def on_press(self, key):
         key.background_color = (0.5, 0.5, 0.5, 1)
@@ -91,12 +92,14 @@ class GameScreen(Screen, GridLayout):
     def make_sound(self, key):
         sound = SoundLoader.load(f"wav/{key.text}.wav")
         if sound:
+            sound.volume = self.children[26].value
             sound.play()
         return True
     
     def make_sound_keyboard(self, note):
         sound = SoundLoader.load(f"wav/{note}.wav")
         if sound:
+            sound.volume = self.children[26].value
             sound.play()
             Clock.schedule_once(lambda dt: sound.stop(), 0.5)
         return True
